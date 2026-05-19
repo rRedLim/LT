@@ -1,0 +1,45 @@
+# LoRA v3 training config.
+#
+# Источник данных: JSONL, собранные через src/data/build_ocr_dataset.py:
+#   datasets/ocr_v3/train.jsonl
+#   datasets/ocr_v3/val.jsonl
+# Перед тренировкой выполни:
+#   py scripts/prepare_ocr_data.py prefill  # авто-OCR на ../dataset/dataset_myself
+#   # вручную правишь labels_myself/*__editable.csv в Excel
+#   py scripts/prepare_ocr_data.py finalize
+#   py scripts/prepare_ocr_data.py build
+
+base_model: Qwen/Qwen2.5-VL-7B-Instruct
+train_data: datasets/ocr_v3/train.jsonl
+val_data:   datasets/ocr_v3/val.jsonl
+out_dir:    runs/lora/v3
+
+max_len: 1280
+augment: true
+
+lora:
+  r: 16
+  alpha: 32
+  dropout: 0.05
+  target_modules: all-linear
+
+training:
+  epochs: 3
+  per_device_train_batch_size: 1
+  gradient_accumulation_steps: 8
+  learning_rate: 1.0e-4
+  lr_scheduler_type: cosine
+  warmup_ratio: 0.05
+  bf16: true
+  gradient_checkpointing: true
+  save_strategy: epoch
+  evaluation_strategy: "no"          # eval отключён: OOM на 4090 (logits [B,L,vocab] не fit в 24GB)
+  seed: 42
+
+# Post-LoRA enhancements (эксп. 5):
+# - DR (dynamic resolution через image_block min/max_pixels) — на train и inference
+# - GAL (gallery match) — только на inference, см. src/inference/vlm_reader.py
+# - SR (Real-ESRGAN) — НЕ используется (эксп. 5: -7.6 п.п. price_card)
+processor:
+  min_pixels: 200000   # ≈ 256 * 28 * 28
+  max_pixels: 1600000  # ≈ 2048 * 28 * 28

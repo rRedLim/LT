@@ -1,0 +1,48 @@
+# Lenta Tech — деплой веб-сервиса распознавания ценников на GPU-сервере.
+#
+#   docker compose up -d --build
+#   → открыть http://<host>:7860
+#
+# Перед запуском положите веса (см. models/README.md):
+#   models/yolo/best.pt           — детектор YOLO11s v3
+#   models/lora/final/            — LoRA-адаптер Qwen2.5-VL (папка адаптера)
+
+services:
+  webapp:
+    build:
+      context: .
+      dockerfile: webapp/Dockerfile
+    image: lenta-pricetag-webapp:latest
+    container_name: lenta-pricetag-webapp
+    restart: unless-stopped
+    ports:
+      - "${LENTA_PORT:-7860}:7860"
+    environment:
+      LENTA_YOLO_WEIGHTS: /models/yolo/best.pt
+      LENTA_LORA_ADAPTER: /models/lora/final
+      LENTA_BASE_MODEL: ${LENTA_BASE_MODEL:-Qwen/Qwen2.5-VL-7B-Instruct}
+      # 4-bit VLM: 1 для GPU < ~16 ГБ (напр. 4070 Super 12 ГБ);
+      # 0/не задавать на боевом GPU-сервере (остаётся bf16).
+      LENTA_VLM_4BIT: ${LENTA_VLM_4BIT:-1}
+      LENTA_OUTPUT_DIR: /app/mlcore/outputs
+      HF_HOME: /root/.cache/huggingface
+      # необязательно: HF-токен, если базовая модель приватная/rate-limited
+      HUGGING_FACE_HUB_TOKEN: ${HUGGING_FACE_HUB_TOKEN:-}
+    volumes:
+      # Веса (read-only). НЕ зашиты в образ — подкладываются на сервере.
+      - ./models:/models:ro
+      # Кэш HuggingFace — чтобы Qwen2.5-VL-7B (~16 ГБ) скачался один раз.
+      - hf-cache:/root/.cache/huggingface
+      # Готовые CSV видны на хосте.
+      - ./outputs:/app/mlcore/outputs
+    shm_size: "8gb"
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+
+volumes:
+  hf-cache:

@@ -1,0 +1,17 @@
+torch>=2.1
+torchvision
+transformers>=4.45
+peft>=0.13
+accelerate>=0.34
+ultralytics>=8.3
+supervision>=0.21
+opencv-contrib-python>=4.10
+albumentations>=2.0
+zxing-cpp>=2.2
+pyyaml>=6
+python-Levenshtein>=0.25
+numpy
+pandas
+Pillow
+pytest>=8
+tqdm>=4.66

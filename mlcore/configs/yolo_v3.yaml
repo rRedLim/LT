@@ -1,0 +1,27 @@
+# YOLO11s v3 training config
+# Fisheye strength откалиброван визуально через preview_strengths.
+# Дефолт: medium (можно изменить в Task 2.5 запуске).
+#
+# Warm-start: ставим model: yolo11s.pt если v2/best.pt отсутствует.
+# Иначе — model: runs/yolo/v2/best.pt (warm-start).
+
+model: yolo11s.pt
+task: detect
+data: datasets/detection_v3/data.yaml
+epochs: 60
+imgsz: 1280
+batch: 8
+device: 0
+project: runs/yolo
+name: v3
+
+# Augmentation (Ultralytics)
+mosaic: 1.0
+mixup: 0.1
+copy_paste: 0.2
+degrees: 3
+scale: 0.4
+perspective: 0.0002
+hsv_h: 0.015
+hsv_s: 0.7
+hsv_v: 0.4

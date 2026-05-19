@@ -1,0 +1,39 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Виртуальные окружения
+.venv/
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Артефакты пайплайна (большие, не versioned)
+runs/
+datasets/
+debug/
+outputs/
+labels_myself/
+mlruns/
+
+# Промежуточные файлы
+*.log
+pytest_out.txt
+*.bak
+
+# Веса моделей (качаются отдельно)
+*.pt
+*.onnx
+*.safetensors
+
+# OS
+.DS_Store
+Thumbs.db

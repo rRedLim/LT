@@ -1,0 +1,199 @@
+# Архетипы ценников по цвету. Required = поле обычно заполнено на этом архетипе
+# (если VLM не дал → ""); Optional = поле обычно отсутствует ("нет").
+#
+# Распределения посчитаны эмпирически по Данные/*/*.csv (262 строки red, 12 yellow).
+# Для цветов которых не было в обучающих данных (green/white/purple/orange/blue)
+# применяется default-шаблон, который соответствует архетипу "red" (наиболее
+# распространённый ритейл-ценник).
+
+red:
+  required:
+    - product_name
+    - price_default
+    - price_card
+    - barcode
+    - color
+    - discount_amount
+    - id_sku
+    - special_symbols
+    - price1_qr
+    - price2_qr
+    - price4_qr
+    - qr_code_barcode
+  optional:
+    - price_discount
+    - print_datetime
+    - additional_info
+    - code
+    - action_code_qr
+    - action_price_qr
+    - price3_qr
+    - wholesale_level_1_count
+    - wholesale_level_1_price
+    - wholesale_level_2_count
+    - wholesale_level_2_price
+
+yellow:
+  required:
+    - product_name
+    - price_default
+    - price_card
+    - barcode
+    - color
+    - id_sku
+    - print_datetime
+    - price1_qr
+    - price2_qr
+    - qr_code_barcode
+  optional:
+    - price_discount
+    - discount_amount
+    - special_symbols
+    - additional_info
+    - code
+    - action_code_qr
+    - action_price_qr
+    - price3_qr
+    - price4_qr
+    - wholesale_level_1_count
+    - wholesale_level_1_price
+    - wholesale_level_2_count
+    - wholesale_level_2_price
+
+# Default-шаблон для green/white/purple/orange/blue — пока не было в данных,
+# используем расширенный red-вариант. Уточнить когда появятся примеры.
+
+green:
+  required:
+    - product_name
+    - price_default
+    - price_card
+    - barcode
+    - color
+  optional:
+    - price_discount
+    - discount_amount
+    - id_sku
+    - print_datetime
+    - special_symbols
+    - additional_info
+    - code
+    - action_code_qr
+    - action_price_qr
+    - price1_qr
+    - price2_qr
+    - price3_qr
+    - price4_qr
+    - qr_code_barcode
+    - wholesale_level_1_count
+    - wholesale_level_1_price
+    - wholesale_level_2_count
+    - wholesale_level_2_price
+
+white:
+  required:
+    - product_name
+    - price_default
+    - barcode
+    - color
+  optional:
+    - price_card
+    - price_discount
+    - discount_amount
+    - id_sku
+    - print_datetime
+    - special_symbols
+    - additional_info
+    - code
+    - action_code_qr
+    - action_price_qr
+    - price1_qr
+    - price2_qr
+    - price3_qr
+    - price4_qr
+    - qr_code_barcode
+    - wholesale_level_1_count
+    - wholesale_level_1_price
+    - wholesale_level_2_count
+    - wholesale_level_2_price
+
+purple:
+  required:
+    - product_name
+    - price_default
+    - price_card
+    - barcode
+    - color
+  optional:
+    - price_discount
+    - discount_amount
+    - id_sku
+    - print_datetime
+    - special_symbols
+    - additional_info
+    - code
+    - action_code_qr
+    - action_price_qr
+    - price1_qr
+    - price2_qr
+    - price3_qr
+    - price4_qr
+    - qr_code_barcode
+    - wholesale_level_1_count
+    - wholesale_level_1_price
+    - wholesale_level_2_count
+    - wholesale_level_2_price
+
+orange:
+  required:
+    - product_name
+    - price_default
+    - price_card
+    - barcode
+    - color
+  optional:
+    - price_discount
+    - discount_amount
+    - id_sku
+    - print_datetime
+    - special_symbols
+    - additional_info
+    - code
+    - action_code_qr
+    - action_price_qr
+    - price1_qr
+    - price2_qr
+    - price3_qr
+    - price4_qr
+    - qr_code_barcode
+    - wholesale_level_1_count
+    - wholesale_level_1_price
+    - wholesale_level_2_count
+    - wholesale_level_2_price
+
+blue:
+  required:
+    - product_name
+    - price_default
+    - price_card
+    - barcode
+    - color
+  optional:
+    - price_discount
+    - discount_amount
+    - id_sku
+    - print_datetime
+    - special_symbols
+    - additional_info
+    - code
+    - action_code_qr
+    - action_price_qr
+    - price1_qr
+    - price2_qr
+    - price3_qr
+    - price4_qr
+    - qr_code_barcode
+    - wholesale_level_1_count
+    - wholesale_level_1_price
+    - wholesale_level_2_count
+    - wholesale_level_2_price

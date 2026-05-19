@@ -1,0 +1,18 @@
+# Custom ByteTrack для долгих треков ценников при motion blur.
+#
+# Отличия от дефолтного ultralytics bytetrack.yaml:
+# - track_buffer: 30 → 120 — держим "потерянный" трек живым 4 сек вместо 1.
+#   Когда робот/iPhone проходит мимо ценника, YOLO теряет его на motion blur
+#   несколько раз. С buffer=30 трек закрывается → возвращающийся резкий кадр
+#   получает новый ID и попадает в _другой_ трек без хороших кадров.
+# - track_low_thresh: 0.1 → 0.05 — слабые детекции продолжают держать трек ID,
+#   даже если YOLO не уверена в blur-кадре.
+# - match_thresh: 0.8 → 0.85 — чуть строже IoU-матчинг (когда несколько
+#   ценников рядом, не перепутать).
+tracker_type: bytetrack
+track_high_thresh: 0.25
+track_low_thresh: 0.05
+new_track_thresh: 0.25
+track_buffer: 120
+match_thresh: 0.85
+fuse_score: True

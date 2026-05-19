@@ -1,0 +1,43 @@
+# Контекст сборки = корень репозитория. Исключаем тяжёлое и ненужное,
+# чтобы образ собирался быстро и был компактным.
+
+# Веса/датасеты/артефакты — монтируются volume'ами в рантайме
+models/
+mlcore/runs/
+mlcore/datasets/
+mlcore/debug/
+mlcore/outputs/
+mlcore/labels_myself/
+mlcore/mlruns/
+
+# Веса любых форматов
+*.pt
+*.onnx
+*.safetensors
+
+# Видео/PDF из репозитория
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.pdf
+
+# Python-мусор
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.venv/
+venv/
+env/
+
+# Прочее
+.omc/
+.git/
+.idea/
+.vscode/
+*.log
+.DS_Store
+Thumbs.db

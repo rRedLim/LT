@@ -1,0 +1,34 @@
+# Зависимости веб-сервиса (front + back).
+#
+# torch / torchvision НЕ перечислены намеренно: в Docker они приходят из
+# базового образа pytorch/pytorch:*-cuda* (CUDA-сборка). Не переустанавливаем,
+# чтобы не сломать совместимость с CUDA.
+#
+# Это надстройка над mlcore/requirements.txt (тот же набор минус torch*).
+
+# --- веб-слой ---
+gradio>=4.44,<6
+pandas
+
+# --- ML-стек mlcore (без torch/torchvision) ---
+# transformers ЗАКРЕПЛЁН: 4.49.0 — первый релиз с Qwen2.5-VL
+# (Qwen2_5_VLForConditionalGeneration). Более свежие версии тянут новый
+# torch.library API (integrations/moe.py::grouped_mm) и падают на импорте
+# с torch 2.4.1 из базового образа ("infer_schema ... unsupported type").
+transformers==4.49.0
+peft>=0.13
+accelerate>=0.34
+bitsandbytes>=0.43          # 4-bit (NF4) загрузка VLM при LENTA_VLM_4BIT=1
+                            # (для GPU < ~16 ГБ). На bf16-пути не задействован.
+ultralytics>=8.3
+lap>=0.5.12                 # трекер ByteTrack; бейкаем, чтобы ultralytics
+                            # не доустанавливал его в рантайме
+supervision>=0.21
+opencv-contrib-python>=4.10
+albumentations>=2.0
+zxing-cpp>=2.2
+pyyaml>=6
+python-Levenshtein>=0.25
+numpy
+Pillow
+tqdm>=4.66

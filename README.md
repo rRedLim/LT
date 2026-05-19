@@ -9,6 +9,18 @@
 видео.mp4  ──►  [ веб-интерфейс ]  ──►  ML-пайплайн  ──►  result.csv (скачать)
 ```
 
+> ⚠️ **Веса моделей хранятся через Git LFS.** Сразу после `git clone`
+> файлы `models/yolo/best.pt` и `models/lora/final/adapter_model.safetensors`
+> будут текстовыми указателями (~130 байт), а не бинарями. **Обязательно**
+> выполните в корне репозитория:
+>
+> ```bash
+> git lfs install && git lfs pull
+> ```
+>
+> Без этого пайплайн упадёт на загрузке YOLO с ошибкой
+> `_pickle.UnpicklingError: invalid load key, 'v'`.
+
 ---
 
 ## Содержание
